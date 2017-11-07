@@ -10,22 +10,21 @@ int main(int argc, char* argv[]) {
     //declarations 
     ifstream in;
     ofstream out;
-    unsigned int intNext;
+    int nextChar;
     vector<int> freqs(256,0);
 
     //read the bytes from the file
     in.open(argv[1]);
-    while (1) {
-      intNext = in.get();
-      if (in.eof()) break;
-
-      //update frequency
-      freqs[(int)charNext]++;
-
-      cout << charNext << "#";
+    for (int i = 0; i < 256; i++) {
+        string nextFreq;
+        unsigned char digit;
+        while (1) {
+            digit = in.get();
+            if (digit == '\n') break;
+            nextFreq += digit;
+        }
+        freqs[i] = stoi(nextFreq);
     }
-    cout << endl;
-    in.close();
     
     //construct the huffman tree
     HCTree tree;
@@ -34,20 +33,11 @@ int main(int argc, char* argv[]) {
     //open output file
     out.open(argv[2]);
 
-    //write header to output file
-    for (int i = 0; i < freqs.size(); i++) {
-        out << freqs[i] << endl;
-    }
-
-    //open input file again
-    in.open(argv[1]);
-
-    //encode each byte and append to output file
-    while (1) {
-        charNext = in.get();
-        if (in.eof()) break;
-
-        tree.encode(charNext, out);
+    //decode the string from the input file using the huffman tree
+    //read the encoded string bit by bit
+    while (nextChar) {
+        nextChar = tree.decode(in);
+        out << (char)nextChar;
     }
 
     //close both input and output files
