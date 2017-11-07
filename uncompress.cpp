@@ -35,10 +35,11 @@ int main(int argc, char* argv[]) {
 
     //decode the string from the input file using the huffman tree
     //read the encoded string bit by bit
-    while (nextChar) {
+    do {
         nextChar = tree.decode(in);
         out << (char)nextChar;
     }
+    while (nextChar);
 
     //close both input and output files
     in.close();

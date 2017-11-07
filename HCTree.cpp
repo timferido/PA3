@@ -144,16 +144,29 @@ int HCTree::decode(ifstream& in) const
 	unsigned char bit;
 
     //Loop through the coded string
-	while (1) {
+	while (1) 
+    {
+        // Get the "bit"
 		bit = in.get();
+        
+        // Check for eof to prevent errors
 		if (in.eof()) break;
-		if (bit) {
-			if (working->c1) {
+        
+        //Go down the Huffman Tree until a leaf is reached
+		if (bit) 
+        {    
+            // Go down the 1 bit child
+			if (working->c1)
 				working = working->c1;
-			} else {
+            
+            // Return null to catch an error
+			else 
 				return 0;
-			}
-		} else {
+        }
+        
+        else 
+        {
+            // Go down the 0 bit child
 			if (working->c0) {
 				working = working->c0;
 			} else {
