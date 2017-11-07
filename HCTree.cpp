@@ -113,6 +113,8 @@ void HCTree::encode(byte symbol, ofstream& out) const
         else 
 			//1 child
 			codeR += '1';
+            
+        working = working->p;
 	}
 
 	//Reverse code using reverse iterator

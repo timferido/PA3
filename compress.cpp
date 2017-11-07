@@ -26,7 +26,7 @@ int main(int argc, char* argv[]) {
     }
     cout << endl;
     in.close();
-
+    
     //construct the huffman tree
     HCTree tree;
     tree.build(freqs);
