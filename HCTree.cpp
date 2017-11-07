@@ -1,3 +1,16 @@
+/*
+ *                                                        Tim Ferido
+ *                                                        Kent Nguyen
+ *                                                        CSE 100, Fall 2017
+ *                                                        November 9, 2017
+ *                                                        A12880086 
+ *                                                        A12164917
+ *                        Programming Assignment Three
+ * File Name:    HCTree.cpp
+ * Description:  Builds the Huffman Code Tree from a file to encode and decode
+ *               Huffman codes based on ASCII frequency in the file to best
+ *               compress the file in order to save space.
+ */ 
 #include "HCTree.h"
 
 #include <queue>
@@ -15,51 +28,61 @@ using namespace std;
  *  POSTCONDITION:  root points to the root of the trie,
  *  and leaves[i] points to the leaf node containing byte i.
  */
-void HCTree::build(const vector<int>& freqs){
-
-
-	//priority queue
+void HCTree::build(const vector<int>& freqs)
+{
+	//Priority queue
 	std::priority_queue<HCNode*> pq;
 
-	//
-	for (int i = 0; i < freqs.size(); i++) {
-		HCNode* tmp = new HCNode(freqs[i], (byte)i);
-		leaves[i] = tmp;
+	//Create HCNodes from the frequency vector
+	for (int i = 0; i < freqs.size(); i++) 
+    {
+        //Avoid unneccessary nodes and potential memory leaks
+        if (freqs[i] != 0)
+        { 
+            HCNode* tmp = new HCNode(freqs[i], (byte)i);
+            leaves[i] = tmp;
+        }
 	}
 
-	//push all the nodes onto priority queue
-	for (int i = 0; i < leaves.size(); i++) {
-		//check if pointer points to node
-		if (leaves[i]) {
-			//push onto queue
+	//Push all the nodes onto priority queue
+	for (int i = 0; i < leaves.size(); i++) 
+    {
+		//Check if pointer points to node
+		if (leaves[i]) 
+        {
+			//Push onto queue
 			pq.push(leaves[i]);
 		}
 	}
 
-	//pop out first two and push in again
-	//loop the above process
-	while(pq.size()>1) {
-		//create int for sum of childrens' counts
-		int countSum = 0;
+	//Pop out first two and push in again
+	//Loop the above process
+	while(pq.size() > 1) 
+    {
+        //Create int for sum of childrens' counts
+        int countSum = 0;
 
-		//create a new node to be the parent
+		//Create a new node to be the parent
 		HCNode* parent = new HCNode(0,0);
 
-		parent->c1 = pq.top();	//pop node from pq to be c1 of parent
-		countSum += pq.top()->count;
+        //Pop HCNode and set HCNode pointers
+		parent->c1 = pq.top();	        //Pop node from pq to be c1 of parent
+		countSum += parent->c1->count;
 		pq.pop();
-		parent->c1->p = parent;	//point child node to parent
+		parent->c1->p = parent;	        //Point child node to parent
 
-		parent->c0 = pq.top();	//pop next node from pq to be c0 of parent
-		countSum += pq.top()->count;
+        //Pop HCNode and set HCNode pointers
+		parent->c0 = pq.top();	        //Pop next node from pq to be c0 of parent
+		countSum += parent->c0->count;
 		pq.pop();
-		parent->c0->p = parent;		//point child node to parent
+		parent->c0->p = parent;		    //Point child node to parent
 
-		parent->count = countSum;	//update the parent node's count
-		pq.push(parent);	//push parent node onto pq 
+        //Update parent node count and push to pq
+		parent->count = countSum;	    
+		pq.push(parent);	            
 	}
 
-	//assign last node in queue to the root
+	//Assign last node in queue to the root
 	root = pq.top();
 	pq.pop();
 }
@@ -72,26 +95,27 @@ void HCTree::build(const vector<int>& freqs){
  *  THIS METHOD IS USEFUL FOR STEP 1-3 BUT SHOULD NOT 
  *  BE USED IN THE FINAL SUBMISSION.
  */
-void HCTree::encode(byte symbol, ofstream& out) const {
-	//find symbol in 'leaves' vector
-	//declarations
+void HCTree::encode(byte symbol, ofstream& out) const 
+{
+	//Find symbol in 'leaves' vector
+	//Declarations
 	HCNode* working = leaves[symbol];
 	std::string codeR, codeF; 
 
-	//traverse all the way up keeping track if 0 or 1
-	//using parent nodes
-	while (working->p) {
-		//check if 0 or 1 child
-		if (working->p->c0 == working) {
+	//Traverse all the way up keeping track if 0 or 1
+	//Using parent nodes
+	while (working->p) 
+    {
+		//Check if 0 or 1 child
+		if (working->p->c0 == working) 
 			//0 child
 			codeR += '0';
-		} else {
+        else 
 			//1 child
 			codeR += '1';
-		}
 	}
 
-	//reverse code 
+	//Reverse code using reverse iterator
 	auto itr = codeR.rbegin();
 	auto end = codeR.rend();
 
@@ -100,7 +124,7 @@ void HCTree::encode(byte symbol, ofstream& out) const {
 		itr++;
 	}
 
-	//write to stream
+	//Write to stream
 	out << codeF;
 }
 
@@ -111,12 +135,13 @@ void HCTree::encode(byte symbol, ofstream& out) const {
  *  THIS METHOD IS USEFUL FOR STEP 1-3 BUT SHOULD NOT BE USED
  *  IN THE FINAL SUBMISSION.
  */
-int HCTree::decode(ifstream& in) const {
-
-	//declarations
+int HCTree::decode(ifstream& in) const 
+{
+	//Declarations
 	HCNode* working = root;
 	unsigned char bit;
 
+    //Loop through the coded string
 	while (1) {
 		bit = in.get();
 		if (in.eof()) break;
