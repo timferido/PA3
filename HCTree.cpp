@@ -153,7 +153,7 @@ int HCTree::decode(ifstream& in) const
 		if (in.eof()) break;
         
         //Go down the Huffman Tree until a leaf is reached
-		if (bit) 
+		if (bit == '1') 
         {    
             // Go down the 1 bit child
 			if (working->c1)

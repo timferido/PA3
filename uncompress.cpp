@@ -37,6 +37,9 @@ int main(int argc, char* argv[]) {
     //read the encoded string bit by bit
     do {
         nextChar = tree.decode(in);
+        
+        if (!nextChar) break;
+        
         out << (char)nextChar;
     }
     while (nextChar);
