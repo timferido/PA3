@@ -31,7 +31,7 @@ using namespace std;
 void HCTree::build(const vector<int>& freqs)
 {
 	//Priority queue
-	std::priority_queue<HCNode*> pq;
+	std::priority_queue<HCNode*, vector<HCNode*>, HCNodePtrComp> pq;
 
 	//Create HCNodes from the frequency vector
 	for (int i = 0; i < freqs.size(); i++) 
