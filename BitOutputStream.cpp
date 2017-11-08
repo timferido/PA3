@@ -6,12 +6,11 @@
  *                                                        A12880086 
  *                                                        A12164917
  *                        Programming Assignment Three
- * File Name:    BitOutputStream.h
- * Description:  Contains methods and data fields of the BitOutputStream class.
+ * File Name:    BitOutputStream.cpp
+ * Description:  The BitOutputStream deals with setting bits individually
+ *               in a byte and then writes it into the output file.
  */ 
 #include "BitOutputStream.h"
-
-
 
 /** Initialize a BitOutputStream that will use 
   * the given ostream for output */

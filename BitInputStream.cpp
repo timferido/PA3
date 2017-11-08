@@ -1,3 +1,14 @@
+/*
+ *                                                        Tim Ferido
+ *                                                        Kent Nguyen
+ *                                                        CSE 100, Fall 2017
+ *                                                        November 9, 2017
+ *                                                        A12880086 
+ *                                                        A12164917
+ *                        Programming Assignment Three
+ * File Name:    BitInputStream.cpp
+ * Description:  The
+ */ 
 #include "BitInputStream.h"
 
 BitInputStream::BitInputStream(std::istream & is) : in(is), buf(0), nbits(8) {}
