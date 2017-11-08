@@ -10,4 +10,16 @@ void BitOutputStream::flush() {
 
 void BitOutputStream::writeBit(int i) {
     
+    //if the bit is full 
+    if (nbits == 8) flush();
+
+    //write the least significant bit of i into buffer at current index
+    buf = setBit(buf, i, nbits);
+
+    //increment index
+    nbits++;
+}
+
+byte BitOutputStream::setBit(byte b, int bit, int n) {
+    return ((b&~(1<<n))|(bit<<n));
 }
