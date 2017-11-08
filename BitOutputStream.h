@@ -11,6 +11,8 @@
  */ 
 #include <iostream>
 
+typedef unsigned char byte;
+
 class BitOutputStream {
 private:
     char buf;               //One byte buffer of bits
@@ -28,9 +30,9 @@ public:
     /** Write the least significant bit of the argument to
       * the bit buffer, and increment the bit buffer index.
       * But flush the buffer first, if it is full. */
-    void writeBit(int i)
+    void writeBit(int i);
     
     /** Sets a bit's value of the nth bit from the right of a byte argument,
       * and return the result. */
-    void setBit(byte b, int bit, int n);
+    byte setBit(byte b, int bit, int n);
 };

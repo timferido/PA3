@@ -11,6 +11,8 @@
  */ 
 #include "BitOutputStream.h"
 
+
+
 /** Initialize a BitOutputStream that will use 
   * the given ostream for output */
 BitOutputStream::BitOutputStream(std::ostream & os) : out(os), buf(0), nbits(0) {}
