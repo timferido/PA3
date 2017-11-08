@@ -1,3 +1,15 @@
+/*
+ *                                                        Tim Ferido
+ *                                                        Kent Nguyen
+ *                                                        CSE 100, Fall 2017
+ *                                                        November 9, 2017
+ *                                                        A12880086 
+ *                                                        A12164917
+ *                        Programming Assignment Three
+ * File Name:    compress.cpp
+ * Description:  Compresses an input file to an output file using a Huffman
+ *               Code Tree.
+ */ 
 #include <fstream>
 #include <vector>
 #include <iostream>
@@ -5,21 +17,22 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-
-    //declarations 
+int main(int argc, char* argv[]) 
+{
+    //Declarations 
     ifstream in;
     ofstream out;
     unsigned char charNext;
     vector<int> freqs(256,0);
 
-    //read the bytes from the file
+    //Read the bytes from the file
     in.open(argv[1]);
-    while (1) {
+    while (1) 
+    {
       charNext = in.get();
       if (in.eof()) break;
 
-      //update frequency
+      //Update frequency vector
       freqs[(int)charNext]++;
 
       cout << charNext << "#";
@@ -27,30 +40,31 @@ int main(int argc, char* argv[]) {
     cout << endl;
     in.close();
     
-    //construct the huffman tree
+    //Construct the huffman tree
     HCTree tree;
     tree.build(freqs);
 
-    //open output file
+    //Open output file
     out.open(argv[2]);
 
-    //write header to output file
+    //Write header to output file
     for (int i = 0; i < freqs.size(); i++) {
         out << freqs[i] << endl;
     }
 
-    //open input file again
+    //Open input file again
     in.open(argv[1]);
 
-    //encode each byte and append to output file
-    while (1) {
+    //Encode each byte and append to output file
+    while (1) 
+    {
         charNext = in.get();
         if (in.eof()) break;
 
         tree.encode(charNext, out);
     }
 
-    //close both input and output files
+    //Close both input and output files
     in.close();
     out.close();
 

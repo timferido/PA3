@@ -1,3 +1,15 @@
+/*
+ *                                                        Tim Ferido
+ *                                                        Kent Nguyen
+ *                                                        CSE 100, Fall 2017
+ *                                                        November 9, 2017
+ *                                                        A12880086 
+ *                                                        A12164917
+ *                        Programming Assignment Three
+ * File Name:    uncompress.cpp
+ * Description:  Unompresses an input file to an output file using a Huffman
+ *               Code Tree.
+ */ 
 #include <fstream>
 #include <vector>
 #include <iostream>
@@ -5,20 +17,23 @@
 
 using namespace std;
 
-int main(int argc, char* argv[]) {
-
-    //declarations 
+int main(int argc, char* argv[]) 
+{
+    //Declarations 
     ifstream in;
     ofstream out;
     int nextChar;
     vector<int> freqs(256,0);
 
-    //read the bytes from the file
+    //Read the bytes from the file
     in.open(argv[1]);
-    for (int i = 0; i < 256; i++) {
+    for (int i = 0; i < 256; i++) 
+    {
         string nextFreq;
         unsigned char digit;
-        while (1) {
+        
+        while (1) 
+        {
             digit = in.get();
             if (digit == '\n') break;
             nextFreq += digit;
@@ -26,16 +41,17 @@ int main(int argc, char* argv[]) {
         freqs[i] = stoi(nextFreq);
     }
     
-    //construct the huffman tree
+    //Construct the huffman tree
     HCTree tree;
     tree.build(freqs);
 
-    //open output file
+    //Open output file
     out.open(argv[2]);
 
-    //decode the string from the input file using the huffman tree
-    //read the encoded string bit by bit
-    do {
+    //Decode the string from the input file using the huffman tree
+    //Read the encoded string bit by bit
+    do 
+    {
         nextChar = tree.decode(in);
         
         if (!nextChar) break;
@@ -44,7 +60,7 @@ int main(int argc, char* argv[]) {
     }
     while (nextChar);
 
-    //close both input and output files
+    //Close both input and output files
     in.close();
     out.close();
 
