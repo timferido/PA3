@@ -62,21 +62,27 @@ int main(int argc, char* argv[])
         //if freq is non zero write line number and frequency
         //use 3 bytes to represent frequencies
         if (freqs[i]) {
-            cout<< freq <<endl;
-            cout<< line <<endl;
+
             //write line number
             for (int i = 7; i >= 0; i--) {
-                outBit.writeBit(line[i]);
+                outBit.writeBit(line[i] - '0');
             }
 
             //write freq
-            for (int i = 23; i >= 0; i--) {
-                outBit.writeBit(freq[i]);
+            for (int i = 7; i >= 0; i--) {
+                outBit.writeBit(freq[i] - '0');
             }
-        }
-        
+            for (int i = 15; i >= 8; i--) {
+                outBit.writeBit(freq[i] - '0');
+            }
+            for (int i = 23; i >= 16; i--) {
+                outBit.writeBit(freq[i] - '0');
+            }
+        }   
     }
-    out <<'\n';
+    outBit.flush();
+
+    out << '\0';
 
     //Open input file again
     in.open(argv[1]);
@@ -90,8 +96,8 @@ int main(int argc, char* argv[])
 
         tree.encode(charNext, outBit);
     }
-
     outBit.flush();
+    
     
     //Close both input and output files
     in.close();
