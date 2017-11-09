@@ -36,8 +36,5 @@ public:
     /** Select the bit value of the nth bit from the right
       * and return the result */
     byte bitVal(byte b, int n);
-<<<<<<< HEAD
     
-=======
->>>>>>> 80beae4f6810a7ba99397e32ea8def3f617f1aec
 };

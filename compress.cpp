@@ -51,7 +51,12 @@ int main(int argc, char* argv[])
 
     //Write header to output file
     for (int i = 0; i < freqs.size(); i++) {
-        out << freqs[i] << endl;
+        // out << freqs[i] << endl;
+        if (!freqs[i]) {
+            outBit.writeBit(0);
+        } else {
+            cout << '\n' << freqs[i] << '\n';
+        }
     }
 
     //Open input file again
