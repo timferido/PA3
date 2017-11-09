@@ -14,7 +14,7 @@
 
 /** Initialize a BitOutputStream that will use 
   * the given ostream for output */
-BitOutputStream::BitOutputStream(std::ostream & os) : out(os), buf(0), nbits(0), byteTotal(0) {}
+BitOutputStream::BitOutputStream(std::ostream & os) : out(os), buf(0), nbits(0) {}
 
 /** Send the buffer to the output, and clear it */
 void BitOutputStream::flush() {
@@ -42,9 +42,4 @@ void BitOutputStream::writeBit(int i) {
   * and return the result. */
 byte BitOutputStream::setBit(byte b, int bit, int n) {
     return ((b&~(1<<n))|(bit<<n));
-}
-
-int getnbits()
-{
-    return nbits;
 }

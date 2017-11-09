@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
     int nextChar;
     vector<int> freqs(256,0);
     BitInputStream inBit(in);
+    long charCount;
 
     //Read the header
     in.open(argv[1]);
@@ -40,7 +41,11 @@ int main(int argc, char* argv[])
             nextFreq += digit;
         }
         freqs[i] = stoi(nextFreq);
+
+        //append to charCount
+        charCount += (long)freqs[i];
     }
+
     
     //Construct the huffman tree
     HCTree tree;
@@ -55,9 +60,11 @@ int main(int argc, char* argv[])
     {
         nextChar = tree.decode(inBit);
         
-        if (in.eof()) break;
+        if (in.eof() || !charCount) break;
         
         out << (char)nextChar;
+
+        charCount--;
     }
     while (nextChar);
 

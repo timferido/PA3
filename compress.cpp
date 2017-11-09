@@ -62,10 +62,7 @@ int main(int argc, char* argv[])
     {
         charNext = in.get();
         
-        if (in.peek() == -1) 
-        {
-            
-        }
+        if (in.eof()) break;
 
         tree.encode(charNext, outBit);
     }

@@ -38,5 +38,4 @@ public:
       * and return the result */
     byte bitVal(byte b, int n);
     
-    std::pair<int, lon
 };
