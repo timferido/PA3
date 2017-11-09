@@ -15,6 +15,7 @@
 #include <iostream>
 #include "HCTree.h"
 #include <string>
+#include <bitset>
 
 using namespace std;
 
@@ -31,22 +32,6 @@ int main(int argc, char* argv[])
 
     //Read the header
     in.open(argv[1]);
-    // for (int i = 0; i < 256; i++) 
-    // {
-    //     string nextFreq;
-    //     unsigned char digit;
-        
-    //     while (1) 
-    //     {
-    //         digit = in.get();
-    //         if (digit == '\n') break;
-    //         nextFreq += digit;
-    //     }
-    //     freqs[i] = stoi(nextFreq);
-
-    //     //append to charCount
-    //     charCount += (long)freqs[i];
-    // }
 
     while (1) {
         //declarations
@@ -55,16 +40,20 @@ int main(int argc, char* argv[])
 
         //read the line number byte
         nextByte = in.get();
-        cout << nextByte;
-        if (in.eof()) break;
+        symbolInt = (int)nextByte; //this is the index of freqs[]
+
         if (nextByte == '\0') break; //delimiter
         
         //read the freq number (3 bytes)
         for (int i = 0; i < 3; i++) {
             freqBin += std::bitset<8>((int)in.get()).to_string();
         }
-        cout << freqBin <<endl;
-        if (in.eof()) break;
+        freqInt = stoi(freqBin, nullptr, 2);
+
+        charCount += freqInt;
+
+        //update freqs vector
+        freqs[symbolInt] = freqInt;
     }
 
     
