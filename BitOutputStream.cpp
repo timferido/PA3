@@ -43,8 +43,3 @@ void BitOutputStream::writeBit(int i) {
 byte BitOutputStream::setBit(byte b, int bit, int n) {
     return ((b&~(1<<n))|(bit<<n));
 }
-
-int getnbits()
-{
-    return nbits;
-}
