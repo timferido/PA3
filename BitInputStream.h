@@ -18,8 +18,10 @@ private:
     char buf;               //One byte buffer of bits
     int nbits;              //How many bits have been written to buf
     std::istream & in;      //Reference to the input stream
+    long byteTotal;         //Number of bytes total
     
 public:
+
     /** Initialize a BitInputStream that will use 
       * the given istream for input */
     BitInputStream(std::istream & is);
@@ -35,4 +37,6 @@ public:
     /** Select the bit value of the nth bit from the right
       * and return the result */
     byte bitVal(byte b, int n);
+    
+    std::pair<int, lon
 };

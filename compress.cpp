@@ -61,11 +61,17 @@ int main(int argc, char* argv[])
     while (1) 
     {
         charNext = in.get();
-        if (in.eof()) break;
+        
+        if (in.peek() == -1) 
+        {
+            
+        }
 
         tree.encode(charNext, outBit);
     }
 
+    outBit.flush();
+    
     //Close both input and output files
     in.close();
     out.close();

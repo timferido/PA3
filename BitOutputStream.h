@@ -35,4 +35,6 @@ public:
     /** Sets a bit's value of the nth bit from the right of a byte argument,
       * and return the result. */
     byte setBit(byte b, int bit, int n);
+    
+    int getnbits();
 };

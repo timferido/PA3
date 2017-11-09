@@ -97,6 +97,7 @@ void HCTree::build(const vector<int>& freqs)
         //Find symbol in 'leaves' vector
         //Declarations
         HCNode* working = leaves[symbol];
+        std::string codeR; 
         
         //Traverse all the way up keeping track if 0 or 1
 	//Using parent nodes
@@ -105,13 +106,27 @@ void HCTree::build(const vector<int>& freqs)
 		//Check if 0 or 1 child
 		if (working->p->c0 == working) 
 			//0 child
-			out.writeBit(0);
+			codeR += '0';
         else 
 			//1 child
-			out.writeBit(1);
+			codeR += '1';
             
         working = working->p;
 	}
+    
+    //Reverse code using reverse iterator
+	auto itr = codeR.rbegin();
+	auto end = codeR.rend();
+
+	while (itr != end) {
+		if (*itr == '1')
+            out.writeBit(1);
+        else
+            out.writeBit(0);
+        
+        itr++;
+	}
+    
     }
 
 /** Write to the given ofstream
@@ -132,7 +147,7 @@ void HCTree::encode(byte symbol, ofstream& out) const
 	//Using parent nodes
 	while (working->p) 
     {
-		//Check if 0 or 1 child
+		//Check if 0 or 1 cild
 		if (working->p->c0 == working) 
 			//0 child
 			codeR += '0';
