@@ -42,4 +42,8 @@ void BitOutputStream::writeBit(int i) {
   * and return the result. */
 byte BitOutputStream::setBit(byte b, int bit, int n) {
     return ((b&~(1<<n))|(bit<<n));
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 80beae4f6810a7ba99397e32ea8def3f617f1aec

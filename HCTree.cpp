@@ -89,17 +89,17 @@ void HCTree::build(const vector<int>& freqs)
 
 /** Write to the given BitOutputStream
  *  the sequence of bits coding the given symbol.
-    *  PRECONDITION: build() has been called, to create the coding
-     *  tree, and initialize root pointer and leaves vector.
-     */
-    void HCTree::encode(byte symbol, BitOutputStream& out) const
-    {
-        //Find symbol in 'leaves' vector
-        //Declarations
-        HCNode* working = leaves[symbol];
-        std::string codeR; 
+ *  PRECONDITION: build() has been called, to create the coding
+ *  tree, and initialize root pointer and leaves vector.
+ */
+void HCTree::encode(byte symbol, BitOutputStream& out) const
+{
+    //Find symbol in 'leaves' vector
+    //Declarations
+    HCNode* working = leaves[symbol];
+    std::string codeR; 
         
-        //Traverse all the way up keeping track if 0 or 1
+    //Traverse all the way up keeping track if 0 or 1
 	//Using parent nodes
 	while (working->p) 
     {
@@ -118,16 +118,17 @@ void HCTree::build(const vector<int>& freqs)
 	auto itr = codeR.rbegin();
 	auto end = codeR.rend();
 
-	while (itr != end) {
+    //Write bit in the correct way
+	while (itr != end) 
+    {
 		if (*itr == '1')
             out.writeBit(1);
         else
             out.writeBit(0);
         
         itr++;
-	}
-    
-    }
+	}    
+}
 
 /** Write to the given ofstream
  *  the sequence of bits (as ASCII) coding the given symbol.
@@ -162,13 +163,60 @@ void HCTree::encode(byte symbol, ofstream& out) const
 	auto itr = codeR.rbegin();
 	auto end = codeR.rend();
 
-	while (itr != end) {
+	while (itr != end) 
+    {
 		codeF += *itr;
 		itr++;
 	}
 
 	//Write to stream
 	out << codeF;
+}
+
+/** Return symbol coded in the next sequence of bits from the stream.
+ *  PRECONDITION: build() has been called, to create the coding
+ *  tree, and initialize root pointer and leaves vector.
+ */
+int HCTree::decode(BitInputStream& in) const
+{    
+    //Declarations
+	HCNode* working = root;
+    int bit;
+    
+    //Loop through the coded string
+	while (1) 
+    {
+        // Get the "bit"
+		bit = in.readBit();
+        
+        //Check eof
+        
+        //Go down the Huffman Tree until a leaf is reached
+		if (bit == 1) 
+        {    
+            // Go down the 1 bit child
+			if (working->c1)
+				working = working->c1;
+            // Return null to catch an error
+			else 
+				return 0;
+        }
+        
+        else 
+        {
+            // Go down the 0 bit child
+			if (working->c0) 
+				working = working->c0;
+            else
+				return 0;
+		}
+		
+        //Return symbol if a leaf
+		if(working->c0 == 0 && working->c1 == 0) 
+			return working->symbol;
+	}
+    
+    return 0;
 }
 
 /** Return the symbol coded in the next sequence of bits (represented as 
@@ -199,8 +247,7 @@ int HCTree::decode(ifstream& in) const
             // Go down the 1 bit child
 			if (working->c1)
 				working = working->c1;
-            
-            // Return null to catch an error
+            // Return null to catch a possible error
 			else 
 				return 0;
         }
@@ -208,65 +255,17 @@ int HCTree::decode(ifstream& in) const
         else 
         {
             // Go down the 0 bit child
-			if (working->c0) {
+			if (working->c0)
 				working = working->c0;
-			} else {
+			else
 				return 0;
-			}
 		}
 		
-		if(working->c0 == 0 && working->c1 == 0) {
+        // Return the symbol if a leaf
+		if(working->c0 == 0 && working->c1 == 0) 
 			return working->symbol;
-		}
 	}
+    
 	return 0;
 }
-
-/** Return symbol coded in the next sequence of bits from the stream.
- *  PRECONDITION: build() has been called, to create the coding
- *  tree, and initialize root pointer and leaves vector.
- */
-int HCTree::decode(BitInputStream& in) const{
-    
-    //Declarations
-	HCNode* working = root;
-    int bit;
-    
-    //Loop through the coded string
-	while (1) 
-    {
-        // Get the "bit"
-		bit = in.readBit();
-        
-        //Check eof
-        
-        //Go down the Huffman Tree until a leaf is reached
-		if (bit == 1) 
-        {    
-            // Go down the 1 bit child
-			if (working->c1)
-				working = working->c1;
-            
-            // Return null to catch an error
-			else 
-				return 0;
-        }
-        
-        else 
-        {
-            // Go down the 0 bit child
-			if (working->c0) {
-				working = working->c0;
-			} else {
-				return 0;
-			}
-		}
-		
-		if(working->c0 == 0 && working->c1 == 0) {
-			return working->symbol;
-		}
-	}
-}
-
-
 
