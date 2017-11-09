@@ -14,6 +14,8 @@
 #include <vector>
 #include <iostream>
 #include "HCTree.h"
+#include <bitset>
+#include <string>
 
 using namespace std;
 
@@ -51,13 +53,30 @@ int main(int argc, char* argv[])
 
     //Write header to output file
     for (int i = 0; i < freqs.size(); i++) {
-        // out << freqs[i] << endl;
-        if (!freqs[i]) {
-            outBit.writeBit(0);
-        } else {
-            cout << '\n' << freqs[i] << '\n';
+        //local string for nonzero frequency
+        string freq = std::bitset<24>(freqs[i]).to_string();
+
+        //local string for nonzero frequency line number
+        string line = std::bitset<8>(i).to_string();
+
+        //if freq is non zero write line number and frequency
+        //use 3 bytes to represent frequencies
+        if (freqs[i]) {
+            cout<< freq <<endl;
+            cout<< line <<endl;
+            //write line number
+            for (int i = 7; i >= 0; i--) {
+                outBit.writeBit(line[i]);
+            }
+
+            //write freq
+            for (int i = 23; i >= 0; i--) {
+                outBit.writeBit(freq[i]);
+            }
         }
+        
     }
+    out <<'\n';
 
     //Open input file again
     in.open(argv[1]);
