@@ -24,6 +24,8 @@ int main(int argc, char* argv[])
     ofstream out;
     unsigned char charNext;
     vector<int> freqs(256,0);
+    BitOutputStream outBit(out);
+    
 
     //Read the bytes from the file
     in.open(argv[1]);
@@ -61,7 +63,7 @@ int main(int argc, char* argv[])
         charNext = in.get();
         if (in.eof()) break;
 
-        tree.encode(charNext, out);
+        tree.encode(charNext, outBit);
     }
 
     //Close both input and output files

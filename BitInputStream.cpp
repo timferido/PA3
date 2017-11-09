@@ -7,7 +7,8 @@
  *                                                        A12164917
  *                        Programming Assignment Three
  * File Name:    BitInputStream.cpp
- * Description:  The
+ * Description:  The BitInputStream takes an encoded file and reads the file
+ *               bit by bit 
  */ 
 #include "BitInputStream.h"
 

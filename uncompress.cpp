@@ -24,8 +24,9 @@ int main(int argc, char* argv[])
     ofstream out;
     int nextChar;
     vector<int> freqs(256,0);
+    BitInputStream inBit(in);
 
-    //Read the bytes from the file
+    //Read the header
     in.open(argv[1]);
     for (int i = 0; i < 256; i++) 
     {
@@ -52,9 +53,9 @@ int main(int argc, char* argv[])
     //Read the encoded string bit by bit
     do 
     {
-        nextChar = tree.decode(in);
+        nextChar = tree.decode(inBit);
         
-        if (!nextChar) break;
+        if (in.eof()) break;
         
         out << (char)nextChar;
     }

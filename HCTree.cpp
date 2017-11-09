@@ -87,6 +87,32 @@ void HCTree::build(const vector<int>& freqs)
 	pq.pop();
 }
 
+/** Write to the given BitOutputStream
+ *  the sequence of bits coding the given symbol.
+    *  PRECONDITION: build() has been called, to create the coding
+     *  tree, and initialize root pointer and leaves vector.
+     */
+    void HCTree::encode(byte symbol, BitOutputStream& out) const
+    {
+        //Find symbol in 'leaves' vector
+        //Declarations
+        HCNode* working = leaves[symbol];
+        
+        //Traverse all the way up keeping track if 0 or 1
+	//Using parent nodes
+	while (working->p) 
+    {
+		//Check if 0 or 1 child
+		if (working->p->c0 == working) 
+			//0 child
+			out.writeBit(0);
+        else 
+			//1 child
+			out.writeBit(1);
+            
+        working = working->p;
+	}
+    }
 
 /** Write to the given ofstream
  *  the sequence of bits (as ASCII) coding the given symbol.
@@ -179,6 +205,52 @@ int HCTree::decode(ifstream& in) const
 		}
 	}
 	return 0;
+}
+
+/** Return symbol coded in the next sequence of bits from the stream.
+ *  PRECONDITION: build() has been called, to create the coding
+ *  tree, and initialize root pointer and leaves vector.
+ */
+int HCTree::decode(BitInputStream& in) const{
+    
+    //Declarations
+	HCNode* working = root;
+    int bit;
+    
+    //Loop through the coded string
+	while (1) 
+    {
+        // Get the "bit"
+		bit = in.readBit();
+        
+        //Check eof
+        
+        //Go down the Huffman Tree until a leaf is reached
+		if (bit == 1) 
+        {    
+            // Go down the 1 bit child
+			if (working->c1)
+				working = working->c1;
+            
+            // Return null to catch an error
+			else 
+				return 0;
+        }
+        
+        else 
+        {
+            // Go down the 0 bit child
+			if (working->c0) {
+				working = working->c0;
+			} else {
+				return 0;
+			}
+		}
+		
+		if(working->c0 == 0 && working->c1 == 0) {
+			return working->symbol;
+		}
+	}
 }
 
 
