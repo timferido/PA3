@@ -48,15 +48,13 @@ int main(int argc, char* argv[])
         for (int i = 0; i < 3; i++) {
             freqBin += std::bitset<8>((int)in.get()).to_string();
         }
-        freqInt = stoi(freqBin, nullptr, 2);
-
-        charCount += freqInt;
+        freqInt = stoi(freqBin, nullptr, 2); // convert the binary string to int
+        charCount += freqInt; //update the amount of characters to write
 
         //update freqs vector
         freqs[symbolInt] = freqInt;
     }
 
-    
     //Construct the huffman tree
     HCTree tree;
     tree.build(freqs);

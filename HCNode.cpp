@@ -11,6 +11,14 @@
  */
 #include "HCNode.h"
 
+/*  Function Name   operator<
+    Parameters      const HCNode& other
+    Description     this overloaded operator does a comparison
+                    of the frequencies of each symbol
+                    if they are equal then we compare the 
+                    values they hold
+    Output          T/F
+*/          
 bool HCNode::operator<(const HCNode& other) {
     //Compare counts
     if (count != other.count)
