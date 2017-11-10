@@ -39,9 +39,7 @@ int main(int argc, char* argv[])
       //Update frequency vector
       freqs[(int)charNext]++;
 
-      cout << charNext << "#";
     }
-    cout << endl;
     in.close();
     
     //Construct the huffman tree

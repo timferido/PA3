@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     int nextChar;
     vector<int> freqs(256,0);
     BitInputStream inBit(in);
-    long charCount;
+    long charCount = 0;
     byte nextByte;
 
     //Read the header
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
         nextByte = in.get();
         symbolInt = (int)nextByte; //this is the index of freqs[]
 
-        if (nextByte == '\0') break; //delimiter
+        if ((nextByte == '\0' && charCount )|| in.eof()) break; //delimiter
         
         //read the freq number (3 bytes)
         for (int i = 0; i < 3; i++) {
