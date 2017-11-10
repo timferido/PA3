@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
         nextByte = in.get();
         symbolInt = (int)nextByte; //this is the index of freqs[]
 
-        if ((nextByte == '\0' && charCount )|| in.eof()) break; //delimiter
+        if ((nextByte == '\0' && charCount )) break; //delimiter
         
         //read the freq number (3 bytes)
         for (int i = 0; i < 3; i++) {
@@ -64,7 +64,7 @@ int main(int argc, char* argv[])
 
     //Decode the string from the input file using the huffman tree
     //Read the encoded string bit by bit
-    do 
+    while (1)
     {
         nextChar = tree.decode(inBit);
         
@@ -74,7 +74,6 @@ int main(int argc, char* argv[])
 
         charCount--;
     }
-    while (nextChar);
 
     //Close both input and output files
     in.close();
